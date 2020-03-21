@@ -1,8 +1,10 @@
 import logging
+import os
 
 from flask import Flask, render_template
 from backend.elastic import elastic
 from backend.db import db
+from config import Config
 
 def make_app(config=None):
     app = Flask(__name__)
@@ -12,8 +14,8 @@ def make_app(config=None):
     app.run()
 
 def configure(app:Flask):
-     app.config.from_object("pesto.configs.default.DefaultConfig")
-     config = get_config(app, config)
+     app.config.from_object("config.config.Config")
+     config = get_config(app)
      app.config["CONFIG_PATH"] = config
      app_config_from_env(app, prefix="PESTO_")
 
@@ -33,6 +35,19 @@ def configure_celery_app(app, celery):
         def __call__(self, *args, **kwargs):
             with app.app_context():
                 return TaskBase.__call__(self, *args, **kwargs)
+
+def get_config(app:Flask):
+    project_dir = os.path.dirname(
+        os.path.dirname(os.path.dirname(__file__))
+    )
+    project_config = os.path.join(project_dir, "pesto.cfg")
+    instance_config = os.path.join(app.instance_path, "pesto.cfg")
+    if os.path.exists(instance_config):
+        return instance_config
+
+def make_config(config_path=None):
+    if config_path is None:
+        return Config()
 
 def configure_all():
     elastic.init()
