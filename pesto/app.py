@@ -1,10 +1,15 @@
 import logging
 
 from flask import Flask, render_template
-
+from backend.elastic import elastic
+from backend.db import db
 
 def make_app(config=None):
     app = Flask(__name__)
+    configure(app)
+    configure_celery_app(app)
+    configure_all()
+    app.run()
 
 def configure(app:Flask):
      app.config.from_object("pesto.configs.default.DefaultConfig")
@@ -29,16 +34,8 @@ def configure_celery_app(app, celery):
             with app.app_context():
                 return TaskBase.__call__(self, *args, **kwargs)
 
-logger = logging.getLogger(__name__)
-app = Flask(__name__)
-
-@app.route('/', methods=['GET'])
-def main_page():
-    return render_template('main.html')
-
-@app.route('/sources', methods=['GET'])
-def main_page():
-    return render_template('source.html')
+def configure_all():
+    elastic.init()
 
 if __name__ == '__main__':
-    app.run()
+    make_app()
