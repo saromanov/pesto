@@ -6,11 +6,14 @@ from backend.elastic import elastic
 from backend.db import db
 from config import Config
 
+import logging
+logger = logging.getLogger(__name__)
+
 def make_app(config=None):
     app = Flask(__name__)
     configure(app)
     configure_celery_app(app)
-    configure_all()
+    configure_backend()
     app.run()
 
 def configure(app:Flask):
@@ -19,7 +22,7 @@ def configure(app:Flask):
      app.config["CONFIG_PATH"] = config
      app_config_from_env(app, prefix="PESTO_")
 
-     configure_logging(app)
+     configure_logger(app)
 
      deprecation_level = app.config.get("DEPRECATION_LEVEL", "default")
 
@@ -61,11 +64,21 @@ def app_config_from_env(app:Flask, *args, **kwargs):
                 continue
             app.config[key] = value
 
+def configure_logger(app:Flask):
+    '''
+    provides configuration of the logger
+    '''
+    logger.setLevel(logging.INFO)
+    if app.config.get("LOG_CONF_FILE"):
+        logger.config.fileConfig(
+            app.config["LOG_CONF_FILE"], disable_existing_loggers=False
+        )
+
 def make_config(config_path=None):
     if config_path is None:
         return Config()
 
-def configure_all():
+def configure_backend():
     elastic.init()
 
 if __name__ == '__main__':
