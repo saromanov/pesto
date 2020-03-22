@@ -12,8 +12,7 @@ logger = logging.getLogger(__name__)
 def make_app(config=None):
     app = Flask(__name__)
     configure(app)
-    configure_celery_app(app)
-    configure_backend()
+    configure_backend(app)
     app.run()
 
 def configure(app:Flask):
@@ -78,8 +77,8 @@ def make_config(config_path=None):
     if config_path is None:
         return Config()
 
-def configure_backend():
-    elastic.init()
+def configure_backend(app:Flask):
+    elastic.init(app.config)
 
 if __name__ == '__main__':
     make_app()
