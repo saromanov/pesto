@@ -74,6 +74,9 @@ def configure_logger(app:Flask):
             app.config["LOG_CONF_FILE"], disable_existing_loggers=False
         )
 
+def make_blueprints(app:Flask):
+    pass
+
 def make_config(config_path=None):
     if config_path is None:
         return Config()

@@ -9,6 +9,10 @@ class UserProfile(MethodView):
         return render_template('user.html', form=form, user=user)
 
 
-def make_handlers(app:Flask):
+def make_blueprints(app:Flask):
+    '''
+    Registering of user related blueprints
+    '''
     bp = Blueprint('user', __name__)
     register_view(bp, routes=['/users/profile'], view_func=UserProfile.as_view("user"))
+    app.register_blueprint(bp)
