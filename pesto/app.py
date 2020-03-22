@@ -45,6 +45,22 @@ def get_config(app:Flask):
     if os.path.exists(instance_config):
         return instance_config
 
+def app_config_from_env(app:Flask, *args, **kwargs):
+    '''
+    getting convig variables from enviroment variables
+    with special defined prefix.
+    By default is PRESTO_
+    '''
+    prefix = kwargs.get('prefix')
+    if not prefix:
+        return
+    for key in os.environ:
+        if key.startswith(prefix):
+            value = os.environ[key]
+            if not value:
+                continue
+            app.config[key] = value
+
 def make_config(config_path=None):
     if config_path is None:
         return Config()
