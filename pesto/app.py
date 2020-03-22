@@ -13,6 +13,7 @@ def make_app(config=None):
     app = Flask(__name__)
     configure(app)
     configure_backend(app)
+    configure_handlers(app)
     app.run()
 
 def configure(app:Flask):
@@ -79,6 +80,20 @@ def make_config(config_path=None):
 
 def configure_backend(app:Flask):
     elastic.init(app.config)
+
+
+def configure_handlers(app:Flask):
+    configure_error_handlers(app)
+
+def configure_error_handlers(app:Flask):
+
+    @app.errorhandler(403)
+    def page_403():
+        return render_template("forbidden_page.html"), 403
+    
+    @app.errorhandler(404)
+    def page_404():
+        return render_template("not_found_page.html"), 404
 
 if __name__ == '__main__':
     make_app()
