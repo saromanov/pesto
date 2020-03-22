@@ -1,0 +1,5 @@
+newspaper
+flask
+flask_wtf
+elasticsearch
+sqlalchemy
