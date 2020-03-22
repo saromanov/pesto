@@ -1,0 +1,1 @@
+from .helpers import register_view
