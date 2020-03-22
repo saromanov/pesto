@@ -14,13 +14,13 @@ from sqlalchemy.types import (
 from sqlalchemy.sql.expression import cast, case
 from sqlalchemy.dialects.postgresql import INET
 from sqlalchemy.ext.hybrid import hybrid_property, hybrid_method
-from source import Source
+from backend.db import db
 
 class User(db.Model):
     __tablename__ = "users"
     id = db.Column(Integer, autoincrement=True, primary_key=True)
     email_address = db.column_property(
-        db.Column(Unicode(255)), comparator_factory=LowerCaseComparator
+        db.Column(Unicode(255))
     )
     first_name = db.Column(Unicode(255), nullable=False)
     last_name = db.Column(Unicode(255))

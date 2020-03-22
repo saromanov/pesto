@@ -4,6 +4,7 @@ import os
 from flask import Flask, render_template
 from backend.elastic import elastic
 from backend.db import db
+from views import user
 from config import Config
 
 import logging

@@ -1,1 +1,1 @@
-from .views import UserProfile
+from .user import UserProfile
