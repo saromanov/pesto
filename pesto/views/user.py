@@ -20,3 +20,4 @@ def make_blueprints(app:Flask):
     bp = Blueprint('user', __name__)
     register_view(bp, routes=['/users/profile'], view_func=UserProfile.as_view("user"))
     app.register_blueprint(bp)
+    print('resss')
