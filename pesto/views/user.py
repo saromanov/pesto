@@ -1,5 +1,5 @@
 from flask.views import MethodView
-from flask import render_template, Blueprint, Flask, redirect, flash
+from flask import render_template, Blueprint, Flask, redirect, flash, request
 from pluggy import HookimplMarker
 from flask_login import UserMixin
 
@@ -19,21 +19,17 @@ class UserLogin(UserMixin, MethodView):
         form = LoginForm()
 
 class UserRegister(MethodView):
-    def __init__(self):
-        self.form = RegisterForm()
-
     def get(self):
-        return self.render(self.form)
+        return self.render(RegisterForm())
     
     def post(self):
-        form = self.form
+        form = RegisterForm(request.form)
         if form.validate_on_submit():
-            email = form.get('email')
-            first_name = form.get('first_name')
-            last_name = form.get('last_name')
-            password = form.get('password')
+            email = form.email.data
+            first_name = form.first_name.data
+            last_name = form.last_name.data
+            password = form.password.data
             exist = User.query.filter_by(email=email).first()
-            print(email, exist)
             if exist:
                 flash('User ealready exisr')
                 return redirect('/')
