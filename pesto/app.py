@@ -4,7 +4,7 @@ import os
 from flask import Flask, render_template
 from backend.elastic import elastic
 from backend.db import db
-from views import user, make_blueprints
+from views import user, make_blueprints_user, make_blueprints_pesto
 from config import Config
 
 import logging
@@ -77,7 +77,8 @@ def configure_logger(app:Flask):
         )
 
 def configure_blueprints(app:Flask):
-    make_blueprints(app)
+    make_blueprints_user(app)
+    make_blueprints_pesto(app)
 
 def make_config(config_path=None):
     if config_path is None:

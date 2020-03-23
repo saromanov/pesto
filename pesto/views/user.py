@@ -17,9 +17,13 @@ class UserRegister(MethodView):
     def get(self):
         form = RegisterForm()
         return render_template('register.html', form=form)
+    
+    def post(self):
+        print('this is post')
+        return render_template('main.html')
 
 @impl(tryfirst=True)
-def make_blueprints(app:Flask):
+def make_blueprints_user(app:Flask):
     '''
     Registering of user related blueprints
     '''
