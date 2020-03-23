@@ -93,11 +93,11 @@ def configure_handlers(app:Flask):
 def configure_error_handlers(app:Flask):
 
     @app.errorhandler(403)
-    def page_403():
+    def page_403(sym):
         return render_template("forbidden_page.html"), 403
     
     @app.errorhandler(404)
-    def page_404():
+    def page_404(sym):
         return render_template("not_found_page.html"), 404
 
 if __name__ == '__main__':
