@@ -19,17 +19,21 @@ class UserLogin(UserMixin, MethodView):
         form = LoginForm()
 
 class UserRegister(MethodView):
+    def __init__(self):
+        self.form = RegisterForm()
+
     def get(self):
-        return self.render(RegisterForm())
+        return self.render(self.form)
     
     def post(self):
-        form = RegisterForm()
+        form = self.form
         if form.validate_on_submit():
             email = form.get('email')
             first_name = form.get('first_name')
             last_name = form.get('last_name')
             password = form.get('password')
             exist = User.query.filter_by(email=email).first()
+            print(email, exist)
             if exist:
                 flash('User ealready exisr')
                 return redirect('/')
@@ -48,6 +52,6 @@ def make_blueprints_user(app:Flask):
     '''
     bp = Blueprint('user', __name__)
     register_view(bp, routes=['/users/profile'], view_func=UserProfile.as_view("user"))
-    register_view(bp, routes=['/users/login'], view_func=UserProfile.as_view("login"))
+    register_view(bp, routes=['/users/login'], view_func=UserLogin.as_view("login"))
     register_view(bp, routes=['/users/register'], view_func=UserRegister.as_view("register"))
     app.register_blueprint(bp)
