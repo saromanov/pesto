@@ -15,7 +15,7 @@ class UserProfile(MethodView):
 
 class UserRegister(MethodView):
     def get(self):
-        form = Register()
+        form = RegisterForm()
         return render_template('register.html', form=form)
 
 @impl(tryfirst=True)
@@ -25,5 +25,5 @@ def make_blueprints(app:Flask):
     '''
     bp = Blueprint('user', __name__)
     register_view(bp, routes=['/users/profile'], view_func=UserProfile.as_view("user"))
+    register_view(bp, routes=['/users/register'], view_func=UserRegister.as_view("register"))
     app.register_blueprint(bp)
-    print('resss')
