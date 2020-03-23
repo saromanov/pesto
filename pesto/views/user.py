@@ -17,15 +17,6 @@ class UserProfile(MethodView):
 class UserLogin(UserMixin, MethodView):
     def post(self):
         form = LoginForm()
-        if form.validate_on_sublit():
-            email = form.get('email')
-            first_name = form.get('first_name')
-            last_name = form.get('last_name')
-            password = form.get('password')
-            exist = User.query.filter_by(email=email).first()
-            if exist:
-                flash('User ealready exisr')
-                return redirect('/')
 
 class UserRegister(MethodView):
     def get(self):
@@ -34,6 +25,14 @@ class UserRegister(MethodView):
     def post(self):
         form = RegisterForm()
         if form.validate_on_submit():
+            email = form.get('email')
+            first_name = form.get('first_name')
+            last_name = form.get('last_name')
+            password = form.get('password')
+            exist = User.query.filter_by(email=email).first()
+            if exist:
+                flash('User ealready exisr')
+                return redirect('/')
             db.session.add(form)
             db.session.commit()
             return redirect('/')
