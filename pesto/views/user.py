@@ -1,5 +1,5 @@
 from flask.views import MethodView
-from flask import render_template, Blueprint, Flask
+from flask import render_template, Blueprint, Flask, redirect
 from pluggy import HookimplMarker
 
 from model import User
@@ -10,17 +10,20 @@ impl = HookimplMarker("pesto")
 
 class UserProfile(MethodView):
     def get(self, id):
-        user = User.query.filter(id=id)
         return render_template('user.html', form=form, user=user)
 
 class UserRegister(MethodView):
     def get(self):
-        form = RegisterForm()
-        return render_template('register.html', form=form)
+        return self.render(RegisterForm())
     
     def post(self):
-        print('this is post')
-        return render_template('main.html')
+        form = RegisterForm()
+        if form.validate_on_submit():
+            return redirect('/')
+        return "Error"
+    
+    def render(self, form):
+        return render_template('register.html', form=form)
 
 @impl(tryfirst=True)
 def make_blueprints_user(app:Flask):
