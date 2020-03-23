@@ -9,7 +9,10 @@ from forms import RegisterForm
 impl = HookimplMarker("pesto")
 
 class Pesto(MethodView):
-    def get(self, id):
+    def get(self):
+        return render_template('main.html')
+    
+    def post(self):
         return render_template('main.html')
 
 @impl(tryfirst=True)
