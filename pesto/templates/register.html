@@ -1,0 +1,9 @@
+<h1> Registration at Pesto</h1>
+<form method="POST" action="/">
+    {{ form.csrf_token }}
+    <p> Email </p>{{ form.email }} 
+    <p>Password </p>{{ form.password }}
+    <p>First name </p>{{ form.first_name }}
+    <p>Last name </p>{{ form.last_name }} <br>
+    <input type="submit" value="Go">
+</form>
