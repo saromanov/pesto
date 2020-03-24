@@ -29,8 +29,7 @@ class UserRegister(MethodView):
             first_name = form.first_name.data
             last_name = form.last_name.data
             password = form.password.data
-            exist = User.query.filter_by(email=email).first()
-            if exist:
+            if User.by_email(email):
                 flash('User ealready exisr')
                 return redirect('/')
             db.session.add(form)

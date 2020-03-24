@@ -19,7 +19,7 @@ from backend.db import db
 class User(db.Model):
     __tablename__ = "users"
     id = db.Column(Integer, autoincrement=True, primary_key=True)
-    email_address = db.column_property(
+    email = db.column_property(
         db.Column(Unicode(255))
     )
     first_name = db.Column(Unicode(255), nullable=False)
@@ -33,8 +33,8 @@ class User(db.Model):
         super(User, self).__init__(*args, **kwargs)
     
     @staticmethod
-    def by_email_address(email):
-        return User.query(email_address=email).first()
+    def by_email(email):
+        return User.query.filter_by(email=email).first()
     
     @hybrid_property
     def name(self):
