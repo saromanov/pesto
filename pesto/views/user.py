@@ -29,6 +29,7 @@ class UserRegister(MethodView):
             first_name = form.first_name.data
             last_name = form.last_name.data
             password = form.password.data
+            print('REGISTERD: ', User.by_email(email))
             if User.by_email(email):
                 flash('User ealready exisr')
                 return redirect('/')
