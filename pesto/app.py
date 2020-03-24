@@ -86,6 +86,7 @@ def make_config(config_path=None):
 
 def configure_backend(app:Flask):
     elastic.init(app.config)
+    db.create_all()
     db.init_app(app)
 
 
