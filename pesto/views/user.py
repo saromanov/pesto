@@ -32,7 +32,8 @@ class UserRegister(MethodView):
             if User.by_email(email):
                 flash('User ealready exisr')
                 return redirect('/')
-            db.session.add(form)
+            user = User(email=email, first_name=first_name, last_name=last_name, password=password)
+            db.session.add(user)
             db.session.commit()
             return redirect('/')
         return "Error"

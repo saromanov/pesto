@@ -18,7 +18,7 @@ from backend.db import db
 
 class User(db.Model):
     __tablename__ = "users"
-    id = db.Column(Integer, autoincrement=True)
+    id = db.Column(Integer, primary_key=True)
     email = db.column_property(
         db.Column(Unicode(255))
     )
@@ -29,7 +29,6 @@ class User(db.Model):
     login_time = db.Column(DateTime)
 
     def __init__(self, *args, **kwargs):
-        self.generate_tracking_key()
         super(User, self).__init__(*args, **kwargs)
     
     @staticmethod
