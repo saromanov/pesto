@@ -29,10 +29,9 @@ class UserRegister(MethodView):
             first_name = form.first_name.data
             last_name = form.last_name.data
             password = form.password.data
-            print('REGISTERD: ', User.by_email(email))
             if User.by_email(email):
-                flash('User ealready exisr')
-                return redirect('/')
+                flash('User already exist')
+                return self.get()
             user = User(email=email, first_name=first_name, last_name=last_name, password=password)
             db.session.add(user)
             db.session.commit()
