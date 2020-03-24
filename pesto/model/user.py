@@ -11,6 +11,7 @@ from sqlalchemy.types import (
     Interval,
     String,
 )
+from werkzeug.security import generate_password_hash, check_password_hash
 from sqlalchemy.sql.expression import cast, case
 from sqlalchemy.dialects.postgresql import INET
 from sqlalchemy.ext.hybrid import hybrid_property, hybrid_method
@@ -24,11 +25,12 @@ class User(db.Model):
     )
     first_name = db.Column(Unicode(255), nullable=False)
     last_name = db.Column(Unicode(255))
-    _password = db.Column("password", Unicode(128), nullable=False)
+    password = db.Column("password", Unicode(128), nullable=False)
 
     login_time = db.Column(DateTime)
 
     def __init__(self, *args, **kwargs):
+        kwargs['password'] = generate_password_hash(kwargs.get('password'))
         super(User, self).__init__(*args, **kwargs)
     
     @staticmethod
