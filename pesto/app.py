@@ -3,7 +3,6 @@ import os
 
 from flask import Flask, render_template
 from backend.elastic import elastic
-from backend.db import db
 from views import user, make_blueprints_user, make_blueprints_pesto
 from config import Config
 
@@ -85,9 +84,11 @@ def make_config(config_path=None):
         return Config()
 
 def configure_backend(app:Flask):
-    elastic.init(app.config)
-    db.create_all()
+    from backend.db import db
     db.init_app(app)
+    db.app = app
+    db.create_all()
+    elastic.init(app.config)
 
 
 def configure_handlers(app:Flask):

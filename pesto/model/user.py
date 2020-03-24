@@ -18,7 +18,7 @@ from backend.db import db
 
 class User(db.Model):
     __tablename__ = "users"
-    id = db.Column(Integer, autoincrement=True, primary_key=True)
+    id = db.Column(Integer, autoincrement=True)
     email = db.column_property(
         db.Column(Unicode(255))
     )
