@@ -37,6 +37,9 @@ class User(db.Model):
     def by_email(email):
         return User.query.filter_by(email=email).first()
     
+    def check_password(self, password):
+        return check_password_hash(self.password, password)
+    
     @hybrid_property
     def name(self):
         if not self.last_name:

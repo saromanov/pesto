@@ -5,7 +5,7 @@ from flask_login import UserMixin
 
 from model import User
 from utils import register_view
-from forms import RegisterForm
+from forms import RegisterForm, LoginForm
 from backend.db import db
 
 impl = HookimplMarker("pesto")
@@ -15,8 +15,21 @@ class UserProfile(MethodView):
         return render_template('user.html', form=form, user=user)
 
 class UserLogin(UserMixin, MethodView):
+    def get(self):
+        return render_template('login.html', form=LoginForm())
+    
+    def redirect_failed(self):
+        flash('Invalid login or password')
+        return self.get()
+
     def post(self):
-        form = LoginForm()
+        form = LoginForm(request.form)
+        if not form.validate_on_submit():
+            return self.redirect_failed()
+        user = User.by_email(email=form.email)
+        if not user.check_password(form.password):
+            return self.redirect_failed()
+        return redirect('/')
 
 class UserRegister(MethodView):
     def get(self):
