@@ -1,14 +1,18 @@
 from flask.views import MethodView
 from flask import render_template, Blueprint, Flask
+from flask_login import login_required
 from pluggy import HookimplMarker
 
 from model import User
 from utils import register_view
 from forms import RegisterForm
+from backend.auth import login_manager
 
 impl = HookimplMarker("pesto")
 
 class Pesto(MethodView):
+
+    @login_manager.user_loader
     def get(self):
         return render_template('main.html')
     

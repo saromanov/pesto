@@ -2,11 +2,14 @@ import logging
 import os
 
 from flask import Flask, render_template
+from flask_login import LoginManager
+
 from backend.elastic import elastic
+from backend.auth import login_manager
+
 from views import user, make_blueprints_user, make_blueprints_pesto
 from config import Config
 
-import logging
 logger = logging.getLogger(__name__)
 
 def make_app(config=None):
@@ -24,6 +27,7 @@ def configure(app:Flask):
      app_config_from_env(app, prefix="PESTO_")
 
      configure_logger(app)
+     login_manager.init_app(app)
 
      deprecation_level = app.config.get("DEPRECATION_LEVEL", "default")
 
