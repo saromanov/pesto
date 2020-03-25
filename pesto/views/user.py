@@ -26,7 +26,10 @@ class UserLogin(UserMixin, MethodView):
         form = LoginForm(request.form)
         if not form.validate_on_submit():
             return self.redirect_failed()
-        user = User.by_email(email=form.email)
+        user = User.by_email(email=form.email.data)
+        print(user)
+        if not user:
+            return self.redirect_failed()
         if not user.check_password(form.password):
             return self.redirect_failed()
         return redirect('/')
@@ -62,5 +65,5 @@ def make_blueprints_user(app:Flask):
     bp = Blueprint('user', __name__)
     register_view(bp, routes=['/users/profile'], view_func=UserProfile.as_view("user"))
     register_view(bp, routes=['/login'], view_func=UserLogin.as_view("login"))
-    register_view(bp, routes=['/users/register'], view_func=UserRegister.as_view("register"))
+    register_view(bp, routes=['/register'], view_func=UserRegister.as_view("register"))
     app.register_blueprint(bp)
