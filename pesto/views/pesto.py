@@ -11,8 +11,8 @@ from backend.auth import login_manager
 impl = HookimplMarker("pesto")
 
 class Pesto(MethodView):
-
-    @login_manager.user_loader
+    decorators = [login_manager.user_loader]
+    
     def get(self):
         return render_template('main.html')
     

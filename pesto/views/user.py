@@ -61,6 +61,6 @@ def make_blueprints_user(app:Flask):
     '''
     bp = Blueprint('user', __name__)
     register_view(bp, routes=['/users/profile'], view_func=UserProfile.as_view("user"))
-    register_view(bp, routes=['/users/login'], view_func=UserLogin.as_view("login"))
+    register_view(bp, routes=['/login'], view_func=UserLogin.as_view("login"))
     register_view(bp, routes=['/users/register'], view_func=UserRegister.as_view("register"))
     app.register_blueprint(bp)
