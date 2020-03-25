@@ -3,10 +3,11 @@ import os
 
 from flask import Flask, render_template
 from flask_login import LoginManager
+from flask_migrate import Migrate, MigrateCommand
+from flask_script import Manager
 
 from backend.elastic import elastic
 from backend.auth import login_manager
-
 from views import user, make_blueprints_user, make_blueprints_pesto
 from config import Config
 
@@ -92,6 +93,10 @@ def configure_backend(app:Flask):
     db.init_app(app)
     db.app = app
     db.create_all()
+    migrate = Migrate(app, db)
+    manager = Manager(app)
+    manager.add_command('db', MigrateCommand)
+
     elastic.init(app.config)
 
 

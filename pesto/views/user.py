@@ -30,7 +30,7 @@ class UserLogin(UserMixin, MethodView):
         print(user)
         if not user:
             return self.redirect_failed()
-        if not user.check_password(form.password):
+        if not user.check_password(form.password.data):
             return self.redirect_failed()
         return redirect('/')
 
