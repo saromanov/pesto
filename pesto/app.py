@@ -9,7 +9,7 @@ from flask_script import Manager
 from backend.elastic import elastic
 from backend.auth import login_manager
 from views import user, make_blueprints_user, make_blueprints_pesto
-from config import Config
+from config import Config, DevConfig, ProdConfig
 
 logger = logging.getLogger(__name__)
 
@@ -22,7 +22,6 @@ def make_app(config=None):
     app.run()
 
 def configure(app:Flask):
-     app.config.from_object("config.config.Config")
      config = get_config(app)
      app.config["CONFIG_PATH"] = config
      app_config_from_env(app, prefix="PESTO_")
@@ -46,6 +45,11 @@ def configure_celery_app(app, celery):
                 return TaskBase.__call__(self, *args, **kwargs)
 
 def get_config(app:Flask):
+    conf = os.getenv('PESTO_ENV', 'DEV')
+    conf_name = 'config.config.DevConfig'
+    if conf == 'PROD':
+        conf_name = 'config.config.ProdConfig'
+    app.config.from_object(conf_name)
     project_dir = os.path.dirname(
         os.path.dirname(os.path.dirname(__file__))
     )
@@ -83,10 +87,6 @@ def configure_logger(app:Flask):
 def configure_blueprints(app:Flask):
     make_blueprints_user(app)
     make_blueprints_pesto(app)
-
-def make_config(config_path=None):
-    if config_path is None:
-        return Config()
 
 def configure_backend(app:Flask):
     from backend.db import db
