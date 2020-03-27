@@ -1,12 +1,13 @@
 from flask.views import MethodView
 from flask import render_template, Blueprint, Flask, redirect, flash, request
 from pluggy import HookimplMarker
-from flask_login import UserMixin
+from flask_login import UserMixin, login_required
 
 from model import User
 from utils import register_view
 from forms import RegisterForm, LoginForm
 from backend.db import db
+from backend.auth import login_manager
 
 impl = HookimplMarker("pesto")
 
@@ -27,7 +28,6 @@ class UserLogin(UserMixin, MethodView):
         if not form.validate_on_submit():
             return self.redirect_failed()
         user = User.by_email(email=form.email.data)
-        print(user)
         if not user:
             return self.redirect_failed()
         if not user.check_password(form.password.data):
@@ -56,6 +56,10 @@ class UserRegister(MethodView):
     
     def render(self, form):
         return render_template('register.html', form=form)
+
+@login_manager.user_loader
+def user_loader(id):
+    return User.get(id)
 
 @impl(tryfirst=True)
 def make_blueprints_user(app:Flask):
