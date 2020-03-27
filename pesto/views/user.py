@@ -1,7 +1,7 @@
 from flask.views import MethodView
-from flask import render_template, Blueprint, Flask, redirect, flash, request
+from flask import render_template, Blueprint, Flask, redirect, flash, request, url_for
 from pluggy import HookimplMarker
-from flask_login import UserMixin, login_required
+from flask_login import UserMixin, login_required, login_user
 
 from model import User
 from utils import register_view
@@ -32,7 +32,9 @@ class UserLogin(UserMixin, MethodView):
             return self.redirect_failed()
         if not user.check_password(form.password.data):
             return self.redirect_failed()
-        return redirect('/')
+        login_user(user)
+        next = request.args.get('next')
+        return redirect(next or url_for('pesto.pesto'))
 
 class UserRegister(MethodView):
     def get(self):
@@ -59,7 +61,7 @@ class UserRegister(MethodView):
 
 @login_manager.user_loader
 def user_loader(id):
-    return User.get(id)
+    return User.query.get(id)
 
 @impl(tryfirst=True)
 def make_blueprints_user(app:Flask):

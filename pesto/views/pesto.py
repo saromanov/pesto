@@ -1,6 +1,6 @@
 from flask.views import MethodView
 from flask import render_template, Blueprint, Flask
-from flask_login import login_required
+from flask_login import login_required, current_user
 from pluggy import HookimplMarker
 
 from model import User
@@ -15,6 +15,7 @@ class Pesto(MethodView):
     
     @login_required
     def get(self):
+        print(current_user)
         return render_template('main.html')
     
     def post(self):

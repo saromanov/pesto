@@ -11,13 +11,14 @@ from sqlalchemy.types import (
     Interval,
     String,
 )
+from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 from sqlalchemy.sql.expression import cast, case
 from sqlalchemy.dialects.postgresql import INET
 from sqlalchemy.ext.hybrid import hybrid_property, hybrid_method
 from backend.db import db
 
-class User(db.Model):
+class User(db.Model, UserMixin):
     __tablename__ = "users"
     id = db.Column(Integer, primary_key=True)
     email = db.column_property(
