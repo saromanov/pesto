@@ -8,6 +8,7 @@ from flask_script import Manager
 
 from backend.elastic import elastic
 from backend.auth import login_manager
+from backend.cache import client
 from views import user, make_blueprints_user, make_blueprints_pesto
 from config import Config, DevConfig, ProdConfig
 

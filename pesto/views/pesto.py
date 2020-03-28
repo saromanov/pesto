@@ -15,7 +15,6 @@ class Pesto(MethodView):
     
     @login_required
     def get(self):
-        print(current_user)
         return render_template('main.html')
     
     def post(self):
