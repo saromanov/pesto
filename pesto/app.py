@@ -9,6 +9,7 @@ from flask_script import Manager
 from backend.elastic import elastic
 from backend.auth import login_manager
 from backend.cache import client
+from backend.celery import make_celery
 from views import user, make_blueprints_user, make_blueprints_pesto
 from config import Config, DevConfig, ProdConfig
 
@@ -33,17 +34,10 @@ def configure(app:Flask):
      deprecation_level = app.config.get("DEPRECATION_LEVEL", "default")
 
 
-def configure_celery_app(app, celery):
-    """Configures the celery app."""
-    app.config.update({"BROKER_URL": app.config["CELERY_BROKER_URL"]})
-    celery.conf.update(app.config)
+def configure_background_tasks(app):
+    """Configures the celery app"""
+    celery_app = make_celery(app)
 
-    TaskBase = celery.Task
-
-    class ContextTask(TaskBase):
-        def __call__(self, *args, **kwargs):
-            with app.app_context():
-                return TaskBase.__call__(self, *args, **kwargs)
 
 def get_config(app:Flask):
     conf = os.getenv('PESTO_ENV', 'DEV')

@@ -10,6 +10,8 @@ class Config:
     POSTGRES_DB = 'pesto'
     POSTGRES_PASSWORD = 'pesto'
     SQLALCHEMY_DATABASE_URI = DB_URL = f'postgresql+psycopg2://{POSTGRES_USER}:{POSTGRES_PASSWORD}@{POSTGRES_URL}/{POSTGRES_DB}'
+    CELERY_BROKER_URL='redis://localhost:6379'
+    CELERY_RESULT_BACKEND='redis://localhost:6379'
 
 class DevConfig(Config):
     DEBUG = True
