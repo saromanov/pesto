@@ -17,9 +17,15 @@ logger = logging.getLogger(__name__)
 
 def make_app(config=None):
     app = Flask(__name__)
+    app.logger.info('Configuration of the app...')
     configure(app)
+    app.logger.info('Configuration of backend...')
     configure_backend(app)
+    app.logger.info('Configuration of background tasks...')
+    configure_background_tasks(app)
+    app.logger.info('Configuration of handlers...')
     configure_handlers(app)
+    app.logger.info('Configuration of blueprints...')
     configure_blueprints(app)
     app.run()
 
