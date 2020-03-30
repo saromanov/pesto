@@ -1,0 +1,26 @@
+<form method="POST">
+    {{ form.csrf_token }}
+     {% for message in get_flashed_messages() %}
+       <div class="alert alert-warning">
+           <button type="button" class="close" data-dismiss="alert">&times;</button>
+           {{ message }}
+       </div>
+     {% endfor %}
+
+     <h1>Add Source</h1>
+
+     <fieldset class="first_name">
+       {{ form.source.label }}
+       {{ form.source(placeholder='https://www.cnn.com') }}
+       {% if form.source.errors %}
+         <ul class="errors">
+           {% for error in form.source.errors %}<li>{{ error }}</li>{% endfor %}
+         </ul>
+       {% endif %}
+     </fieldset>
+
+     <div class="submitbutton">
+       <input id="submit" type="submit" value="Submit">
+     </div>
+
+   </form>
