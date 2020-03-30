@@ -10,7 +10,7 @@ from backend.elastic import elastic
 from backend.auth import login_manager
 from backend.cache import client
 from backend.celery import make_celery
-from views import user, make_blueprints_user, make_blueprints_pesto
+from views import user, make_blueprints_user, make_blueprints_pesto, make_blueprints_sources
 from config import Config, DevConfig, ProdConfig
 
 logger = logging.getLogger(__name__)
@@ -88,6 +88,7 @@ def configure_logger(app:Flask):
 def configure_blueprints(app:Flask):
     make_blueprints_user(app)
     make_blueprints_pesto(app)
+    make_blueprints_sources(app)
 
 def configure_backend(app:Flask):
     from backend.db import db
