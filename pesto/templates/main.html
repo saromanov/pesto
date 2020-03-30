@@ -1,0 +1,13 @@
+{% block content %}
+  <div class="lookup">
+      <div class="username" align=right>
+        <p> Hello, {{current_user.first_name}} {{current_user.last_name}} </p>
+        </div>
+      </div>
+
+      <h2> Hot topics </h2>
+      {% for topic in topics %}
+        {{topic}} <br>
+      {% endfor %}
+  </div>
+{% endblock %}

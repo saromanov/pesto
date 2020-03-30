@@ -1,1 +1,1 @@
-from redis import client, sadd, smembers
+from .redis import client, sadd, smembers

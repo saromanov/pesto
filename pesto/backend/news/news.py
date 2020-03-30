@@ -10,12 +10,3 @@ def get_articles_urls(url:str):
 
 def hot_topics() -> List[str]:
     return hot()
-
-article = Article('https://www.nytimes.com/2020/03/28/world/coronavirus-live-news-updates.html')
-article.download()
-article.parse()
-article.nlp()
-print(article.keywords)
-print(article.summary)
-
-print(hot_topics())

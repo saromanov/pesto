@@ -8,7 +8,7 @@ from utils import register_view
 from forms import RegisterForm
 from backend.auth import login_manager
 from backend.cache import smembers
-from backend.news import hot
+from backend.news import hot_topics
 impl = HookimplMarker("pesto")
 
 class Pesto(MethodView):
@@ -22,7 +22,7 @@ class Pesto(MethodView):
         '''
         topics = smembers('PESTO_SYSTEM_HOT_TOPICS')
         if len(topics) == 0:
-            topics = hot()
+            topics = hot_topics()
         return render_template('main.html', topics=topics)
     
     def post(self):

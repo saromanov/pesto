@@ -1,0 +1,1 @@
+from .news import hot_topics
