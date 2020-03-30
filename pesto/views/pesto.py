@@ -7,7 +7,8 @@ from model import User
 from utils import register_view
 from forms import RegisterForm
 from backend.auth import login_manager
-
+from backend.cache import smembers
+from backend.news import hot
 impl = HookimplMarker("pesto")
 
 class Pesto(MethodView):
@@ -15,7 +16,14 @@ class Pesto(MethodView):
     
     @login_required
     def get(self):
-        return render_template('main.html')
+        ''' 
+        first, trying to get hot topics from cache
+        if this is not available, then getting it from news scrapper
+        '''
+        topics = smembers('PESTO_SYSTEM_HOT_TOPICS')
+        if len(topics) == 0:
+            topics = hot()
+        return render_template('main.html', topics=topics)
     
     def post(self):
         return render_template('main.html')
