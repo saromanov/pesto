@@ -40,7 +40,7 @@ def configure(app:Flask):
      deprecation_level = app.config.get("DEPRECATION_LEVEL", "default")
 
 
-def configure_background_tasks(app):
+def configure_background_tasks(app:Flask):
     """Configures the celery app"""
     celery_app = make_celery(app)
 
