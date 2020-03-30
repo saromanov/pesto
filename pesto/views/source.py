@@ -5,21 +5,21 @@ from pluggy import HookimplMarker
 
 from model import User
 from utils import register_view
-from forms import RegisterForm
+from forms import AddSourceForm
 from backend.auth import login_manager
 impl = HookimplMarker("pesto")
 
 class Source(MethodView):
     ''' Sources configurations
-    '''
-    decoratorss = [login_manager.user_loader]
-    
+    ''' 
     @login_required
     def get(self):
-        return render_template('add_source.html')
+        return render_template('add_source.html', form=AddSourceForm())
     
+    @login_required
     def post(self):
         return render_template('add_source.html')
+        
 
 @impl(tryfirst=True)
 def make_blueprints_sources(app:Flask):

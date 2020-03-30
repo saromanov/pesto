@@ -12,7 +12,6 @@ from backend.news import hot_topics
 impl = HookimplMarker("pesto")
 
 class Pesto(MethodView):
-    decoratorss = [login_manager.user_loader]
     
     @login_required
     def get(self):
