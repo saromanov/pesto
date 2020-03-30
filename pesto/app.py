@@ -1,5 +1,6 @@
 import logging
 import os
+import asyncio
 
 from flask import Flask, render_template
 from flask_login import LoginManager
@@ -9,7 +10,7 @@ from flask_script import Manager
 from backend.elastic import elastic
 from backend.auth import login_manager
 from backend.cache import client
-from backend.celery import make_celery
+from backend.celery import celery
 from views import user, make_blueprints_user, make_blueprints_pesto, make_blueprints_sources
 from config import Config, DevConfig, ProdConfig
 
@@ -42,7 +43,7 @@ def configure(app:Flask):
 
 def configure_background_tasks(app:Flask):
     """Configures the celery app"""
-    celery_app = make_celery(app)
+    celery.init_app(app)
 
 
 def get_config(app:Flask):
