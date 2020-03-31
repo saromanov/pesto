@@ -3,7 +3,15 @@ from flask import Flask
 
 def make_celery(self, app:Flask):
     self.name = app.import_name
-    self.config_from_object(app.config)
+    self.conf.beat_schedule = {
+    'add-every-30-seconds': {
+        'task': 'backend.celery.tasks.store_hot_topics',
+        'schedule': 1.0,
+        },
+    }
+    self.conf.broker_url = app.config['CELERY_BROKER_URL']
+    self.conf.result_backend = app.config['CELERY_RESULT_BACKEND']
+    self.conf.timezone = 'UTC'
     TaskBase = self.Task
     class ContextTask(TaskBase):
         abstract = True
@@ -12,10 +20,5 @@ def make_celery(self, app:Flask):
                 return TaskBase.__call__(self, *args, **kwargs)
     self.Task = ContextTask
 
-celery = Celery(include=["backend.celery.tasks"], broker='redis://localhost:6379')
+celery = Celery(include=["backend.celery.tasks"])
 Celery.init_app = make_celery
-
-@celery.task(bind=True)
-def store_hot_topics():
-    print('YES')
-celery.add_periodic_task(1, store_hot_topics.s(), name='task-name')
