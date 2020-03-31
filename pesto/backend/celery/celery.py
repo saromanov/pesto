@@ -12,7 +12,7 @@ def make_celery(self, app:Flask):
                 return TaskBase.__call__(self, *args, **kwargs)
     self.Task = ContextTask
 
-celery = Celery(include=["pesto.backend.celery.tasks"])
+celery = Celery(include=["backend.celery.tasks"])
 Celery.init_app = make_celery
 
 @celery.task

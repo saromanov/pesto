@@ -1,7 +1,5 @@
 import logging
 import os
-import asyncio
-
 from flask import Flask, render_template
 from flask_login import LoginManager
 from flask_migrate import Migrate, MigrateCommand
@@ -24,8 +22,6 @@ def make_app(config=None):
     configure(app)
     app.logger.info('Configuration of backend...')
     configure_backend(app)
-    app.logger.info('Configuration of background tasks...')
-    configure_background_tasks(app)
     return app
 
 def make_http_app():
@@ -34,6 +30,8 @@ def make_http_app():
     configure_handlers(app)
     app.logger.info('Configuration of blueprints...')
     configure_blueprints(app)
+    app.logger.info('Configuration of background tasks...')
+    configure_background_tasks(app)
     app.run()
 
 def configure(app:Flask):
@@ -49,7 +47,7 @@ def configure(app:Flask):
 
 def configure_background_tasks(app:Flask):
     """Configures the celery app"""
-    celery.init_app(app)
+    return celery.init_app(app)
 
 
 def get_config(app:Flask):
