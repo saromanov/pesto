@@ -14,3 +14,7 @@ def make_celery(self, app:Flask):
 
 celery = Celery(include=["pesto.backend.celery.tasks"])
 Celery.init_app = make_celery
+
+@celery.task
+def store_hot_topics():
+    print('YES')
