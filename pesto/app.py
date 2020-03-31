@@ -17,6 +17,8 @@ from config import Config, DevConfig, ProdConfig
 logger = logging.getLogger(__name__)
 
 def make_app(config=None):
+    ''' create of the basic app without http handlers
+    ''' 
     app = Flask(__name__)
     app.logger.info('Configuration of the app...')
     configure(app)
@@ -24,6 +26,10 @@ def make_app(config=None):
     configure_backend(app)
     app.logger.info('Configuration of background tasks...')
     configure_background_tasks(app)
+    return app
+
+def make_http_app():
+    app = make_app()
     app.logger.info('Configuration of handlers...')
     configure_handlers(app)
     app.logger.info('Configuration of blueprints...')
@@ -117,4 +123,4 @@ def configure_error_handlers(app:Flask):
         return render_template("not_found_page.html"), 404
 
 if __name__ == '__main__':
-    make_app()
+    make_http_app()
