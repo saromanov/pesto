@@ -12,9 +12,10 @@ def make_celery(self, app:Flask):
                 return TaskBase.__call__(self, *args, **kwargs)
     self.Task = ContextTask
 
-celery = Celery(include=["backend.celery.tasks"])
+celery = Celery(include=["backend.celery.tasks"], broker='redis://localhost:6379')
 Celery.init_app = make_celery
 
-@celery.task
+@celery.task(bind=True)
 def store_hot_topics():
     print('YES')
+celery.add_periodic_task(1, store_hot_topics.s(), name='task-name')
