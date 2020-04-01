@@ -5,4 +5,4 @@ from backend.cache import sadd
 
 @celery.task(bind=True)
 def store_hot_topics(a):
-    sadd(datetime.datetime.now().strftime('hot-topics:%Y:%m:%d:%H'), ','.join(hot_topics()))
+    sadd(datetime.datetime.now().strftime('hot-topics:%Y:%m:%d:%H'), hot_topics())
