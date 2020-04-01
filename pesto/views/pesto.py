@@ -9,6 +9,7 @@ from forms import RegisterForm
 from backend.auth import login_manager
 from backend.cache import smembers
 from backend.news import hot_topics
+from backend.utils import time_now_formatted
 impl = HookimplMarker("pesto")
 
 class Pesto(MethodView):
@@ -19,7 +20,7 @@ class Pesto(MethodView):
         first, trying to get hot topics from cache
         if this is not available, then getting it from news scrapper
         '''
-        topics = smembers('PESTO_SYSTEM_HOT_TOPICS')
+        topics = smembers(time_now_formatted('PESTO_SYSTEM_HOT_TOPICS'))
         return render_template('main.html', topics=topics)
     
     def post(self):

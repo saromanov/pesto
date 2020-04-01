@@ -7,7 +7,7 @@
 
       <h2> Hot topics </h2>
       {% for topic in topics %}
-        {{topic}} <br>
+        {{topic.decode("utf-8") }} <br>
       {% endfor %}
   </div>
 {% endblock %}
