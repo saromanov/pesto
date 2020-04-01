@@ -6,7 +6,7 @@ client = redis.Redis()
 def sadd(path:str, members:List[str]):
     if len(members) == 0:
         return     
-    res = client.sadd(path, members)
+    client.sadd(path, *members)
 
 def smembers(path:str) -> List[str]:
     return client.smembers(path)

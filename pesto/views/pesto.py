@@ -20,8 +20,6 @@ class Pesto(MethodView):
         if this is not available, then getting it from news scrapper
         '''
         topics = smembers('PESTO_SYSTEM_HOT_TOPICS')
-        if len(topics) == 0:
-            topics = hot_topics()
         return render_template('main.html', topics=topics)
     
     def post(self):
