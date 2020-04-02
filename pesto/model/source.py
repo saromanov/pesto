@@ -6,4 +6,4 @@ class Source(db.Model):
 
     id = db.Column(Integer, primary_key=True)
     url = db.Column(String)
-    name = db.Column(String)
+    title = db.Column(String)

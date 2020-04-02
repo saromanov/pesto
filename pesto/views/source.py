@@ -22,7 +22,7 @@ class AddSource(MethodView):
         if not form.validate_on_submit():
             self.redirect_failed()
             return
-        source = Source(url=form.url.data)
+        source = Source(url=form.url.data, title=form.title.data)
         db.session.add(source)
         db.session.commit()
         return render_template('add_source.html')
@@ -36,7 +36,8 @@ class Source(MethodView):
     '''
     @login_required
     def get(self):
-        return render_template('sources.html')
+        sources = Source.query().filter_by(user=current_user)
+        return render_template('sources.html', sources=sources)
 
 @impl(tryfirst=True)
 def make_blueprints_sources(app:Flask):
@@ -45,4 +46,5 @@ def make_blueprints_sources(app:Flask):
     '''
     bp = Blueprint('source', __name__)
     register_view(bp, routes=['/sources/add'], view_func=Source.as_view("source"))
+    register_view(bp, routes=['/sources'], view_func=Source.as_view("source_view"))
     app.register_blueprint(bp)

@@ -8,8 +8,18 @@
      {% endfor %}
 
      <h1>Add Source</h1>
+     
+     <fieldset class="title">
+      {{ form.title.label }}
+      {{ form.title(placeholder='title of the source') }}
+      {% if form.title.errors %}
+        <ul class="errors">
+          {% for error in form.title.errors %}<li>{{ error }}</li>{% endfor %}
+        </ul>
+      {% endif %}
+    </fieldset>
 
-     <fieldset class="first_name">
+     <fieldset class="source">
        {{ form.source.label }}
        {{ form.source(placeholder='https://www.cnn.com') }}
        {% if form.source.errors %}
