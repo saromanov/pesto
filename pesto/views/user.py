@@ -6,7 +6,7 @@ from flask_login import UserMixin, login_required, login_user
 from model import User
 from utils import register_view
 from forms import RegisterForm, LoginForm
-from backend.db import db
+from backend.db import db, get_by_id
 from backend.auth import login_manager
 
 impl = HookimplMarker("pesto")
@@ -61,7 +61,7 @@ class UserRegister(MethodView):
 
 @login_manager.user_loader
 def user_loader(id):
-    return User.query.get(id)
+    return get_by_id(User, id)
 
 @impl(tryfirst=True)
 def make_blueprints_user(app:Flask):

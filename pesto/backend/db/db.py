@@ -10,5 +10,5 @@ def query(cls, **kw):
 
     return q
 
-def get(cls, id):
-    return cls.query().get(id)
+def get_by_id(cls, id):
+    return db.session.query(cls).get(id)
