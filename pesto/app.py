@@ -1,6 +1,6 @@
 import logging
 import os
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 from flask_login import LoginManager
 from flask_migrate import Migrate, MigrateCommand
 from flask_script import Manager
@@ -33,6 +33,7 @@ def make_http_app():
     app.logger.info('Configuration of template handlers...')
     configure_filters(app)
     app.logger.info('Configuration of background tasks...')
+    register_before_request(app)
     configure_background_tasks(app)
     app.run()
 
@@ -128,6 +129,12 @@ def configure_filters(app:Flask):
     @app.template_filter('process_template')
     def processing_hot_topics(data):
         return data.decode("utf-8").capitalize()
+
+def register_before_request(app:Flask):
+
+    @app.before_request
+    def before_request():
+        print(request)
 
 if __name__ == '__main__':
     make_http_app()
