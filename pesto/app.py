@@ -30,6 +30,8 @@ def make_http_app():
     configure_handlers(app)
     app.logger.info('Configuration of blueprints...')
     configure_blueprints(app)
+    app.logger.info('Configuration of template handlers...')
+    configure_filters(app)
     app.logger.info('Configuration of background tasks...')
     configure_background_tasks(app)
     app.run()
@@ -119,6 +121,13 @@ def configure_error_handlers(app:Flask):
     @app.errorhandler(404)
     def page_404(sym):
         return render_template("not_found_page.html"), 404
+    
+
+def configure_filters(app:Flask):
+
+    @app.template_filter('process_template')
+    def processing_hot_topics(data):
+        return data.decode("utf-8").capitalize()
 
 if __name__ == '__main__':
     make_http_app()
