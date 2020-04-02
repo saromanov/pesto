@@ -11,6 +11,7 @@ from sqlalchemy.types import (
     Interval,
     String,
 )
+from sqlalchemy.orm import relationship
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 from sqlalchemy.sql.expression import cast, case
@@ -27,8 +28,9 @@ class User(db.Model, UserMixin):
     first_name = db.Column(Unicode(255), nullable=False)
     last_name = db.Column(Unicode(255))
     password = db.Column("password", Unicode(128), nullable=False)
-
     login_time = db.Column(DateTime)
+    children = relationship("Source")
+
 
     def __init__(self, *args, **kwargs):
         kwargs['password'] = generate_password_hash(kwargs.get('password'))

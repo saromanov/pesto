@@ -1,3 +1,4 @@
+from sqlalchemy import ForeignKey
 from sqlalchemy.types import Integer, String
 from backend.db import db
 
@@ -7,3 +8,4 @@ class Source(db.Model):
     id = db.Column(Integer, primary_key=True)
     url = db.Column(String)
     title = db.Column(String)
+    user_id = db.Column(Integer, ForeignKey('users.id'))

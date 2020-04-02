@@ -14,6 +14,7 @@ class AddSource(MethodView):
     ''' 
     @login_required
     def get(self):
+        print(current_user.id)
         return render_template('add_source.html', form=AddSourceForm())
     
     @login_required
