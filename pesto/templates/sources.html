@@ -1,0 +1,17 @@
+{% block content %}
+  <div class="lookup">
+      <div class="username" align=right>
+        <p> Hello, {{current_user.first_name}} {{current_user.last_name}} </p>
+        </div>
+      </div>
+
+      <h2> Registered source </h2>
+      {% for source in sources %}
+        {{source}} <br>
+      {% endfor %}
+  </div>
+
+  <div class="add-source">
+    <a href="{{ url_for('source.source') }}"> Add source </a>
+  </div>
+{% endblock %}

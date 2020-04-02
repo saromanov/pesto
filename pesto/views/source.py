@@ -9,8 +9,8 @@ from forms import AddSourceForm
 from backend.auth import login_manager
 impl = HookimplMarker("pesto")
 
-class Source(MethodView):
-    ''' Sources configurations
+class AddSource(MethodView):
+    ''' Add new source
     ''' 
     @login_required
     def get(self):
@@ -31,6 +31,12 @@ class Source(MethodView):
         flash('Unable to add new source')
         return self.get()
         
+class Source(MethodView):
+    ''' Showing of registerd sources for user
+    '''
+    @login_required
+    def get(self):
+        return render_template('sources.html')
 
 @impl(tryfirst=True)
 def make_blueprints_sources(app:Flask):
