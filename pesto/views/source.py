@@ -46,5 +46,5 @@ def make_blueprints_sources(app:Flask):
     '''
     bp = Blueprint('source', __name__)
     register_view(bp, routes=['/sources/add'], view_func=Source.as_view("source"))
-    register_view(bp, routes=['/sources'], view_func=Source.as_view("source_view"))
+    register_view(bp, routes=['/sources'], view_func=Source.as_view("source_show"))
     app.register_blueprint(bp)
