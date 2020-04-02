@@ -3,7 +3,7 @@ from flask import render_template, Blueprint, Flask
 from flask_login import login_required, current_user
 from pluggy import HookimplMarker
 
-from model import User
+from model import Source
 from utils import register_view
 from forms import AddSourceForm
 from backend.auth import login_manager
@@ -18,7 +18,18 @@ class Source(MethodView):
     
     @login_required
     def post(self):
+        form = AddSourceForm(request.form)
+        if not form.validate_on_submit():
+            self.redirect_failed()
+            return
+        source = Source(url=form.url.data)
+        db.session.add(source)
+        db.session.commit()
         return render_template('add_source.html')
+    
+    def redirect_failed(self):
+        flash('Unable to add new source')
+        return self.get()
         
 
 @impl(tryfirst=True)

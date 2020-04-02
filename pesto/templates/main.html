@@ -10,4 +10,8 @@
         {{topic | process_template}} <br>
       {% endfor %}
   </div>
+
+  <div class="add-source">
+    <a href="{{ url_for('source.source') }}"> Add source </a>
+  </div>
 {% endblock %}
