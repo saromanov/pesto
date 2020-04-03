@@ -33,13 +33,12 @@ class AddSource(MethodView):
         flash('Unable to add new source')
         return self.get()
         
-class Source(MethodView):
+class ShowSource(MethodView):
     ''' Showing of registerd sources for user
     '''
     @login_required
     def get(self):
-        sources = query(Source, current_user.id)
-        return render_template('sources.html', sources=sources)
+        return render_template('sources.html', sources=Source.filter_by(user_id=current_user.id))
 
 @impl(tryfirst=True)
 def make_blueprints_sources(app:Flask):
@@ -47,6 +46,6 @@ def make_blueprints_sources(app:Flask):
     Registering of user related blueprints
     '''
     bp = Blueprint('source', __name__)
-    register_view(bp, routes=['/sources/add'], view_func=Source.as_view("source"))
-    register_view(bp, routes=['/sources'], view_func=Source.as_view("source_show"))
+    register_view(bp, routes=['/sources/add'], view_func=AddSource.as_view("source"))
+    register_view(bp, routes=['/sources'], view_func=ShowSource.as_view("source_show"))
     app.register_blueprint(bp)
