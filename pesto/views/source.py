@@ -7,6 +7,7 @@ from model import Source
 from utils import register_view
 from forms import AddSourceForm
 from backend.auth import login_manager
+from backend.db import query
 impl = HookimplMarker("pesto")
 
 class AddSource(MethodView):
@@ -37,7 +38,7 @@ class Source(MethodView):
     '''
     @login_required
     def get(self):
-        sources = Source.query().filter_by(user=current_user)
+        sources = query(Source, current_user.id)
         return render_template('sources.html', sources=sources)
 
 @impl(tryfirst=True)
