@@ -7,7 +7,7 @@
 
       <h2> Registered source </h2>
       {% for source in sources %}
-        {{source}} <br>
+        <a href={{source.url}}>{{source.title}}</a> <br>
       {% endfor %}
   </div>
 

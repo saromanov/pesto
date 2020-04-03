@@ -106,7 +106,6 @@ def configure_backend(app:Flask):
     migrate = Migrate(app, db)
     manager = Manager(app)
     manager.add_command('db', MigrateCommand)
-
     elastic.init(app.config)
 
 
