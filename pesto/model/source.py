@@ -6,6 +6,6 @@ class Source(db.Model):
     __tablename__ = "sources"
 
     id = db.Column(Integer, primary_key=True)
-    url = db.Column(String)
-    title = db.Column(String)
+    url = db.Column(String, nullable=False)
+    title = db.Column(String, nullable=False)
     user_id = db.Column(Integer, ForeignKey('users.id'))
