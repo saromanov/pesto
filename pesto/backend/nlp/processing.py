@@ -1,9 +1,9 @@
-from types import List
+from typing import List
 import string
-import nltk
+from nltk import pos_tag, ne_chunk
 from nltk.corpus import stopwords
-from nltk.tokenize import word_tokenize, pos_tag, ne_chunk
-from nltk.stem import PorterStemming
+from nltk.tokenize import word_tokenize
+from nltk.stem import PorterStemmer
 
 class Processing:
     def __init__(self, text:str):
@@ -35,8 +35,8 @@ def stemming(tokens: List[str]) -> List[str]:
     ''' stemmign for words
         for example types -> type
     '''
-    stemmer = PorterStemming()
-    return stemmer.stem(w) for w in tokens
+    stemmer = PorterStemmer()
+    return [stemmer.stem(w) for w in tokens]
 
 def ner(tokens: List[str]) -> List[str]:
     '''
