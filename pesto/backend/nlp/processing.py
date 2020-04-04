@@ -4,6 +4,8 @@ from nltk import pos_tag, ne_chunk
 from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
 from nltk.stem import PorterStemmer
+import spacy
+from spacy.lang.en import English
 
 class Processing:
     def __init__(self, text:str):
@@ -13,6 +15,7 @@ class Processing:
         processed = basic_processing(self._text)
         tokenized = word_tokenize(self._text)
         methods = [remove_stopwords, stemming, ner]
+        self._entities = entity_detection(self._text)
         return [m(tokenized) for m in methods]
         
 
@@ -43,5 +46,13 @@ def ner(tokens: List[str]) -> List[str]:
     '''
     Named enttity recognition returns position tags on text
     '''
-    return ne_chunk(pos_tag(word_tokenize(input_str)))
+    return ne_chunk(pos_tag(tokens))
+
+def entity_detection(text:str):
+    nlp = spacy.load("en_core_web_sm")
+    data = nlp(text)
+    for d in data.ents:
+        print(d.lemma_)
+    return [(i, i.label_, i.label) for i in data.ents]
+
 
