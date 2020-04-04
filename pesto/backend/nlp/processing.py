@@ -20,8 +20,9 @@ def basic_processing(text:str) -> str:
     ''' basic processing of the text article
     its converting text to lower case, removed punctuation
     '''
-    text = text.to_lower().strip()
-    return text.translate(string.maketrans("",""), string.punctuation)
+    text = text.lower().strip()
+    table = text.maketrans(dict.fromkeys(string.punctuation))
+    return text.translate(table)
 
 def remove_stopwords(tokens:List[str]) -> List[str]:
     ''' remove stop words from text
