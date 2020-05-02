@@ -14,7 +14,6 @@ impl = HookimplMarker("pesto")
 
 class Pesto(MethodView):
     
-    @login_required
     def get(self):
         ''' 
         first, trying to get hot topics from cache

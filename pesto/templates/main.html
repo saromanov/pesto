@@ -1,20 +1,28 @@
+{% if current_user.is_authenticated %}
 {% block content %}
-  <div class="lookup">
-      <div class="username" align=right>
-        <p> Hello, {{current_user.first_name}} {{current_user.last_name}} </p>
-        </div>
+<div class="lookup">
+    <div class="username" align=right>
+      <p> Hello, {{current_user.first_name}} {{current_user.last_name}} </p>
       </div>
-
-      <h2> Hot topics </h2>
-      {% for topic in topics %}
-        {{topic | process_template}} <br>
-      {% endfor %}
-  </div>
-
-  <div class="add-source">
-    <a href="{{ url_for('source.source') }}"> Add source </a>
-  </div>
-  <div class="list-source">
-      <a href="{{ url_for('source.source_show') }}"> List of sources </a>
     </div>
+
+    <h2> Hot topics </h2>
+    {% for topic in topics %}
+      {{topic | process_template}} <br>
+    {% endfor %}
+</div>
+
+<div class="add-source">
+  <a href="{{ url_for('source.source') }}"> Add source </a>
+</div>
+<div class="list-source">
+    <a href="{{ url_for('source.source_show') }}"> List of sources </a>
+  </div>
 {% endblock %}
+{% else %}
+<div class=login>
+  <a href="{{ url_for('user.login') }}">Login</a><br>
+  <a href="{{url_for('user.register') }}"> Register </a>
+</div>
+{% endif %}
+
