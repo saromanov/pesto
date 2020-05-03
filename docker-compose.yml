@@ -27,10 +27,18 @@ services:
       - postgres
 
   postgres:
-    image: redis:5.0.7-alpine
+    image: postgres:12
     restart: unless-stopped
+    environment:
+      POSTGERS_USER: pesto
+      POSTGERS_NAME: pesto
+      POSTGRES_PASSWORD: pesto
+      PGDATA: /storage/postgres-data
     volumes:
-      - redis-data:/data:cached
+      - postgres:/storage/postgres-data
+    ports:
+      - "5433:5433"
+
     networks:
       - pesto
 
